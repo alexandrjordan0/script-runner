@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
@@ -19,11 +20,14 @@ fun IOField(
     modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     output: Boolean = false,
+    isSoftWrap: Boolean = false,
+    scrollState: ScrollState? = null,
     onValueChange: (String) -> Unit
 ) {
     val roundedCornerShape = RoundedCornerShape(16.dp)
     val horizontalScroll = rememberScrollState()
-    val verticalScroll = rememberScrollState()
+
+    val verticalScroll = scrollState ?: rememberScrollState()
 
     BasicTextField(
         value = value,
@@ -66,11 +70,21 @@ fun IOField(
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .horizontalScroll(horizontalScroll)
+                            .then(
+                                if (isSoftWrap) Modifier
+                                else Modifier.horizontalScroll(horizontalScroll)
+                            )
                     ) {
                         innerTextField()
                     }
                 }
+
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(verticalScroll),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .fillMaxHeight()
+                )
             }
         }
     )
