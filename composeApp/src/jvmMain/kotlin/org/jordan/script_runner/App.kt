@@ -23,6 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.skiko.Cursor
 import org.jordan.script_runner.components.IOField
 import org.jordan.script_runner.components.TerminalOutput
+import org.jordan.script_runner.logic.ScriptExecutor
 import org.jordan.script_runner.style.AppColors
 
 @Composable
@@ -31,7 +32,7 @@ fun App() {
     var scriptValue by remember { mutableStateOf("") }
     var outputValue by remember { mutableStateOf("") }
     var isRunning by remember { mutableStateOf(false) }
-    var splitRatio by remember { mutableStateOf(0.75f) }
+    var splitRatio by remember { mutableStateOf(0.6f) }
     var isSoftWrap by remember { mutableStateOf(true) }
 
     val scope = rememberCoroutineScope()
@@ -75,6 +76,11 @@ fun App() {
                 }
             }
         }
+    }
+
+    fun navigateToCode(line: Int, column: Int) {
+        // TODO
+        inputFocusRequester.requestFocus()
     }
 
     MaterialTheme {

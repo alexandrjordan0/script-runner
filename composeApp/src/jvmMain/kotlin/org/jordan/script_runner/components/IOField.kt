@@ -6,11 +6,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.jordan.script_runner.features.KotlinHighlighter
+import org.jordan.script_runner.features.TerminalHighlighter
 import org.jordan.script_runner.style.AppColors
 import org.jordan.script_runner.style.textStyle
 
@@ -35,6 +38,9 @@ fun IOField(
         readOnly = readOnly,
         textStyle = textStyle,
         cursorBrush = SolidColor(AppColors.TEXT_PRIMARY),
+        visualTransformation = remember(output) {
+            if (output) TerminalHighlighter() else KotlinHighlighter()
+        },
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(),

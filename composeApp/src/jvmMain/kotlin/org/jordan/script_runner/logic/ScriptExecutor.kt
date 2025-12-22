@@ -1,4 +1,4 @@
-package org.jordan.script_runner
+package org.jordan.script_runner.logic
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
