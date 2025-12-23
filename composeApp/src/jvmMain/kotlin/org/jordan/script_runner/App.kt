@@ -67,8 +67,8 @@ fun App() {
 
                 isRunning = false
 
-                if (code != -1) {
-                    outputValue += "\n[Failed with exit code $code]"
+                if (code != 0 && code != -1) {
+                    outputValue += "\n[Process finished with exit code $code]"
                 }
             }
         }

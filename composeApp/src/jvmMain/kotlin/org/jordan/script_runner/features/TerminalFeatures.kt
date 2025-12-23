@@ -10,6 +10,7 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.sp
 import org.jordan.script_runner.style.AppColors
 
 class TerminalHighlighter : VisualTransformation {
@@ -27,12 +28,33 @@ private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedStr
     val errorTagRegex = Regex("<ERR>(.*?)</ERR>")
     errorTagRegex.findAll(code).forEach { match ->
         addStyle(
-            style = SpanStyle(color = AppColors.RED, fontWeight = FontWeight.SemiBold),
+            style = SpanStyle(
+                color = AppColors.RED,
+                fontWeight = FontWeight.SemiBold
+            ),
             start = match.groups[1]!!.range.first,
             end = match.groups[1]!!.range.last + 1
         )
-        addStyle(SpanStyle(color = Color.Transparent), match.range.first, match.range.first + 5)
-        addStyle(SpanStyle(color = Color.Transparent), match.range.last - 5, match.range.last + 1)
+
+        addStyle(
+            style = SpanStyle(
+                color = Color.Transparent,
+                fontSize = 0.sp,
+                letterSpacing = 0.sp
+            ),
+            start = match.range.first,
+            end = match.range.first + 5
+        )
+
+        addStyle(
+            style = SpanStyle(
+                color = Color.Transparent,
+                fontSize = 0.sp,
+                letterSpacing = 0.sp
+            ),
+            start = match.range.last - 5,
+            end = match.range.last + 1
+        )
     }
 
     val locationRegex = Regex("""script.*?\.kts:(\d+):(\d+)""")
