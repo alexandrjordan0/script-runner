@@ -23,25 +23,6 @@ import org.jordan.script_runner.features.TerminalHighlighter
 import org.jordan.script_runner.style.AppColors
 import org.jordan.script_runner.style.textStyle
 
-
-/**
-A composable function for creating an input/output text field with optional features
- * such as scrollbars, syntax highlighting, and line numbers. This component is versatile
- * and supports both read-only and editable content, along with customization for soft wrapping
- * or single-line presentation.
- *
- * @param value The current text content displayed in the field.
- * @param modifier Modifier to be applied to the text field.
- * @param readOnly If true, the text field is non-editable and acts as a read-only output.
- * @param isOutput If true, the text field displays content using terminal-style highlighting.
- *               Otherwise, Kotlin code syntax highlighting is applied.
- * @param isSoftWrap If true, the text wraps within the available width. If false, horizontal
- *                   scrolling is enabled when the text exceeds the visible area.
- * @param scrollState Optional vertical scroll state to manage the vertical scroll position
- *                    externally. If omitted, an internal scroll state is used.
- * @param onValueChange A callback invoked when the text content changes. It receives the new
- *                      text value as a parameter.
- */
 @Composable
 fun IOField(
     value: TextFieldValue,
@@ -54,7 +35,7 @@ fun IOField(
     topBar: (@Composable () -> Unit)? = null,
     onNavigate: ((Int, Int) -> Unit)? = null,
 ) {
-    val roundedCornerShape = RoundedCornerShape(16.dp)
+    val roundedCornerShape = RoundedCornerShape(8.dp)
     val horizontalScroll = rememberScrollState()
 
     val verticalScroll = scrollState ?: rememberScrollState()
@@ -85,12 +66,11 @@ fun IOField(
                     .background(AppColors.IO_BACKGROUND, shape = roundedCornerShape)
             ) {
                 Column {
-                    // Renders optional top bar with divider
                     if (topBar != null) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                                .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                                 .background(AppColors.BACKGROUND)
                                 .padding(horizontal = 8.dp, vertical = 8.dp)
                         ) {
@@ -159,11 +139,6 @@ fun IOField(
     )
 }
 
-/**
- * A composable function that generates a visual representation of numbered code lines.
- *
- * @param lineCount The number of lines to display. This determines the range of line numbers shown.
- */
 @Composable
 fun CodeLine(lineCount: Int) {
     val lineNumbers = remember(lineCount) {
@@ -180,9 +155,6 @@ fun CodeLine(lineCount: Int) {
     )
 }
 
-/**
- * A modifier that detects clicks on terminal links and navigates to the specified line and column.
- */
 private fun Modifier.terminalLinkHandler(
     isOutput: Boolean,
     text: String,

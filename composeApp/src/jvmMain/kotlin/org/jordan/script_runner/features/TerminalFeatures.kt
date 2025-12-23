@@ -65,6 +65,7 @@ private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedStr
         val line = match.groups[1]?.value ?: "0"
         val col = match.groups[2]?.value ?: "0"
 
+        // Style the script location blue
         addStyle(
             style = SpanStyle(
                 color = AppColors.LINK,
@@ -74,6 +75,7 @@ private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedStr
             end = match.range.last + 1
         )
 
+        // Add url tag for click handler for navigation
         addStringAnnotation(
             tag = "URL",
             annotation = "$line:$col",

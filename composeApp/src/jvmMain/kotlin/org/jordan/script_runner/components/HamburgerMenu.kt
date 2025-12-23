@@ -51,7 +51,7 @@ fun HamburgerMenu(
         )
 
         MaterialTheme(
-            shapes = MaterialTheme.shapes.copy(medium = RoundedCornerShape(16.dp)),
+            shapes = MaterialTheme.shapes.copy(medium = RoundedCornerShape(8.dp)),
             colors = MaterialTheme.colors.copy(surface = AppColors.FRAME)
         ) {
             DropdownMenu(
