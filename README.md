@@ -27,8 +27,8 @@ This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a li
 <img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/2ad22971-122c-42cc-8a35-b240d33aaed3" />
 
 ## Demo Video
-You can find a video demonstration of the tool's features (Live Output, Error Navigation, Process Control) here:
-[Download/View Demo Video](./DEMO.mp4)
+You can find a video demonstration of the tool's features here:
+[Download Demo Video](./DEMO.mp4)
 
 ## Prerequisites
 
