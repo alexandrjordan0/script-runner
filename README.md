@@ -17,12 +17,14 @@ This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a li
 
 ## Screenshots
 
-**Live Progress**
-<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/06560354-6af7-4f6d-8669-11dbb130ff01" />
-**Error Navigation**
-<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/25eef21d-4d5e-4756-8e66-59fb2155e903" />
+**Live Output**
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/3b6ff87f-c1f0-4a4b-b96a-3065b11c5c6b" />
+
+**Clickable Error Navigation**
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/53d37578-4c77-4eed-8504-59f4208335e0" />
+
 **Process Control**
-<img width="800" height="558" alt="image" src="https://github.com/user-attachments/assets/4be0424f-8a15-458f-aad9-ee0f379252a8" />
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/2ad22971-122c-42cc-8a35-b240d33aaed3" />
 
 ## Prerequisites
 
