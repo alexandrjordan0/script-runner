@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.VerticalAlignBottom
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jordan.script_runner.style.AppColors
 
@@ -78,13 +79,15 @@ fun TerminalTopBar(
             Text(
                 text = "Running...",
                 style = MaterialTheme.typography.labelSmall,
-                color = AppColors.TEXT_PRIMARY
+                color = AppColors.TEXT_PRIMARY,
+                fontWeight = FontWeight.Bold,
             )
         } else {
             Text(
                 text = "Terminal Output",
                 style = MaterialTheme.typography.labelSmall,
-                color = AppColors.TEXT_PRIMARY
+                color = AppColors.TEXT_PRIMARY,
+                fontWeight = FontWeight.Bold,
             )
         }
 

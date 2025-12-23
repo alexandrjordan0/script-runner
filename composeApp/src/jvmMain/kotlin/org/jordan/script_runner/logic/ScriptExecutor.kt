@@ -9,6 +9,8 @@ import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import java.util.*
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Executes Kotlin scripts using the Kotlin compiler.
@@ -16,10 +18,13 @@ import java.nio.charset.StandardCharsets
 object ScriptExecutor {
     suspend fun runScript(
         scriptContent: String,
+        onProcessStarted: (Process) -> Unit,
         onOutput: (String) -> Unit,
         onError: (String) -> Unit
     ): Int = withContext(Dispatchers.IO) {
-        val tempFile = File.createTempFile("script", ".kts")
+        val tempDir = File(System.getProperty("java.io.tmpdir"), "ksr_${UUID.randomUUID()}")
+        tempDir.mkdirs()
+        val tempFile = File(tempDir, "script.kts")
 
         try {
             tempFile.writeText(scriptContent)
@@ -38,6 +43,10 @@ object ScriptExecutor {
             env["JAVA_TOOL_OPTIONS"] = "-Dfile.encoding=UTF-8"
 
             val process = processBuilder.start()
+
+            withContext(Dispatchers.Main) {
+                onProcessStarted(process)
+            }
 
             coroutineScope {
                 // Read the standard output stream
@@ -63,13 +72,13 @@ object ScriptExecutor {
 
             return@withContext process.exitValue()
 
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             onError("Execution failed: ${e.message}\n")
             return@withContext -1
         } finally {
-            if (tempFile.exists()) {
-                tempFile.delete()
-            }
+            tempDir.deleteRecursively()
         }
     }
 
@@ -81,6 +90,7 @@ object ScriptExecutor {
                 line?.let { onLine(it) }
             }
         } catch (_: Exception) {
+            // Do nothing
         }
     }
 }

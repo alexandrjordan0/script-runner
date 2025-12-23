@@ -36,6 +36,8 @@ fun App() {
     val scope = rememberCoroutineScope()
     var scriptJob by remember { mutableStateOf<Job?>(null) }
 
+    var activeProcess by remember { mutableStateOf<Process?>(null) }
+
     val inputFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
@@ -54,26 +56,40 @@ fun App() {
     fun toggleExecution() {
         if (isRunning) {
             scriptJob?.cancel()
+
+            activeProcess?.descendants()?.forEach { it.destroyForcibly() }
+            activeProcess?.destroyForcibly()
+
+            activeProcess = null
             isRunning = false
             outputValue += "\n[Terminated by user]"
-        } else {
-            isRunning = true
-            outputValue = ""
 
-            scriptJob = scope.launch {
-                val code = ScriptExecutor.runScript(
+            return
+        }
+
+        isRunning = true
+        outputValue = ""
+
+        scriptJob = scope.launch {
+            try {
+                val exitCode = ScriptExecutor.runScript(
                     scriptContent = scriptValue.text,
+                    onProcessStarted = { activeProcess = it },
                     onOutput = { outputValue += it },
                     onError = { outputValue += it }
                 )
 
-                isRunning = false
-
-                if (code != 0 && code != -1) {
-                    outputValue += "\n[Process finished with exit code $code]"
+                if (isRunning && exitCode != 0 && exitCode != -1) {
+                    outputValue += "\n[Process finished with exit code $exitCode]"
                 }
+            } catch (_: Exception) {
+                // Do nothing
+            } finally {
+                activeProcess = null
+                isRunning = false
             }
         }
+
     }
 
     fun navigateToCode(line: Int, column: Int) {
