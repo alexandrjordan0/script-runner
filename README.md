@@ -18,13 +18,13 @@ This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a li
 ## Screenshots
 
 **Live Output**
-<img width="800" alt="Live Output" src="./assets/live_output.png" />
+<img width="800" src="./assets/live_output.png" />
 
 **Clickable Error Navigation**
-<img width="800" alt="Clickable Error Navigation" src="./assets/clickable_error_navigation.png.png" />
+<img width="800" src="./assets/clickable_error_navigation.png.png" />
 
 **Process Control**
-<img width="800" alt="Process Control" src="./assets/process_control.png" />
+<img width="800" src="./assets/process_control.png" />
 
 ## Demo Video
 You can find a video demonstration of the tool's features [here](./assets/) or [Watch on YouTube](https://www.youtube.com/watch?v=FmMFijfwSSQ)
