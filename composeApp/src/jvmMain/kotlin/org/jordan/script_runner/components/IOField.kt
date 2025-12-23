@@ -85,6 +85,15 @@ fun IOField(
                     }
                 }
 
+                if (!isSoftWrap) {
+                    HorizontalScrollbar(
+                        adapter = rememberScrollbarAdapter(horizontalScroll),
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .fillMaxWidth()
+                    )
+                }
+
                 VerticalScrollbar(
                     adapter = rememberScrollbarAdapter(verticalScroll),
                     modifier = Modifier
