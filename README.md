@@ -1,27 +1,39 @@
-This is a Kotlin Multiplatform project targeting Desktop (JVM).
+# Kotlin Script Runner
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a lightweight, modern execution environment for running, debugging, and managing Kotlin scripts (`.kts`) with a custom graphical interface.
 
-### Build and Run Desktop (JVM) Application
+## Features
+
+* **Dual-Pane Interface**: A resizable split-screen layout featuring a code editor and a live output terminal side-by-side.
+* **Standard Execution**: seamless integration with the system's `kotlinc` compiler to execute scripts in a real environment.
+* **Live Output Streaming**: Captures `stdout` and `stderr` in real-time, allowing for immediate feedback on long-running processes.
+* **Process Management**:
+  * Visual status indicators for running processes.
+  * One-click termination for hanging or long-running scripts.
+  * Clear reporting of process exit codes upon completion.
+* **Syntax Highlighting**: Custom highlighting for Kotlin keywords to improve code readability.
+* **Smart Error Navigation**: Automatically parses execution errors and generates clickable links. Clicking a link instantly moves the editor cursor to the exact line and column of the issue.
+* **Modern UI**: A dark-themed, frameless window design for a unified aesthetic.
+
+**Live Progress**
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/dcdd06ec-b4cc-4041-9ab8-44b40ae2a112" />
+**Error Navigation**
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/25eef21d-4d5e-4756-8e66-59fb2155e903" />
+**Process Control**
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/5a575422-bed3-4b27-af72-5e36ae083595" />
+
+## Prerequisites
+
+* **JDK 11 or higher**: Required to run the JVM application.
+* **Kotlin Compiler (`kotlinc`)**: Must be installed and available in the system PATH to enable script execution.
+
+## Build and Run Desktop (JVM) Application
 
 To build and run the development version of the desktop app, use the run configuration from the run widget
 in your IDE’s toolbar or run it directly from the terminal:
+
 - on macOS/Linux
   ```shell
   ./gradlew :composeApp:run
-  ```
 - on Windows
-  ```shell
   .\gradlew.bat :composeApp:run
-  ```
-
----
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
