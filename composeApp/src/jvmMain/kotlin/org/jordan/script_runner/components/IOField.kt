@@ -78,11 +78,6 @@ fun IOField(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(AppColors.IO_BACKGROUND, shape = roundedCornerShape)
-                /* .border(
-                     width = 1.dp,
-                     color = AppColors.BORDER,
-                     shape = roundedCornerShape
-                 )*/
             ) {
                 Column {
                     if (topBar != null) {

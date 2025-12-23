@@ -84,7 +84,7 @@ fun App() {
             val totalHeight = constraints.maxHeight.toFloat()
 
             Column(
-                modifier = Modifier.padding(4.dp, 0.dp, 4.dp, 4.dp),
+                modifier = Modifier.padding(4.dp),
             ) {
                 Column(
                     modifier = Modifier

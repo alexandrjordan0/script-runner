@@ -17,7 +17,8 @@ fun ActionIconButton(
     onClick: () -> Unit,
     icon: ImageVector,
     tooltip: String,
-    contentColor: Color
+    contentColor: Color,
+    backgroundColor: Color = AppColors.IO_BACKGROUND,
 ) {
     TooltipBox(
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
@@ -38,7 +39,7 @@ fun ActionIconButton(
             modifier = Modifier.size(32.dp),
             shape = RoundedCornerShape(8.dp),
             colors = IconButtonDefaults.filledIconButtonColors(
-                containerColor = AppColors.IO_BACKGROUND,
+                containerColor = backgroundColor,
                 contentColor = contentColor
             )
         ) {
