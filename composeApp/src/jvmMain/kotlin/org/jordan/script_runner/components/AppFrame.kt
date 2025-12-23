@@ -8,7 +8,9 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.CropSquare
 import androidx.compose.material.icons.filled.FilterNone
 import androidx.compose.material.icons.filled.Minimize
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,7 +70,7 @@ fun WindowScope.AppFrame(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-
+                    // Main Menu button
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         HamburgerMenu(
                             onAccentColorChange = onAccentColorChange
@@ -83,21 +85,18 @@ fun WindowScope.AppFrame(
                         )
                     }
 
-
                     Row {
-                        IconButton(
+                        // Minimize button
+                        ActionIconButton(
                             onClick = { windowState.isMinimized = true },
-                            modifier = Modifier.size(30.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Minimize,
-                                contentDescription = "Min",
-                                tint = Color.Gray,
-                                modifier = Modifier.padding(bottom = 10.dp)
-                            )
-                        }
+                            icon = Icons.Default.Minimize,
+                            tooltip = "Minimize",
+                            contentColor = AppColors.LIGHT_GRAY,
+                            backgroundColor = AppColors.TRANSPARENT
+                        )
 
-                        IconButton(
+                        // Maximize / Restore button
+                        ActionIconButton(
                             onClick = {
                                 windowState.placement = if (windowState.placement == WindowPlacement.Maximized) {
                                     WindowPlacement.Floating
@@ -105,28 +104,21 @@ fun WindowScope.AppFrame(
                                     WindowPlacement.Maximized
                                 }
                             },
-                            modifier = Modifier.size(30.dp)
-                        ) {
-                            Icon(
-                                imageVector = if (windowState.placement == WindowPlacement.Maximized)
-                                    Icons.Default.FilterNone else Icons.Default.CropSquare,
-                                contentDescription = "Max",
-                                tint = AppColors.LIGHT_GRAY,
-                                modifier = Modifier.size(14.dp)
-                            )
-                        }
+                            icon = if (windowState.placement == WindowPlacement.Maximized)
+                                Icons.Default.FilterNone else Icons.Default.CropSquare,
+                            tooltip = if (windowState.placement == WindowPlacement.Maximized) "Restore" else "Maximize",
+                            contentColor = AppColors.LIGHT_GRAY,
+                            backgroundColor = AppColors.TRANSPARENT
+                        )
 
-                        IconButton(
+                        // Exit button
+                        ActionIconButton(
                             onClick = onCloseRequest,
-                            modifier = Modifier.size(30.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "Close",
-                                tint = AppColors.LIGHT_GRAY,
-                                modifier = Modifier.size(16.dp)
-                            )
-                        }
+                            icon = Icons.Default.Close,
+                            tooltip = "Close",
+                            contentColor = AppColors.LIGHT_GRAY,
+                            backgroundColor = AppColors.TRANSPARENT
+                        )
                     }
                 }
             }
