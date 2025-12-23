@@ -24,8 +24,15 @@ import androidx.compose.ui.window.WindowState
 import org.jordan.script_runner.style.AppColors
 
 /**
- * Composable function for creating a customizable application frame with a window-like behavior
- * and draggable area. Includes minimize, maximize, and close controls.
+ * A composable function that represents the main application window frame. It provides the
+ * structure and layout for a custom window with draggable areas, an action bar, and user-defined content.
+ *
+ * @param windowState The current state of the window, including its size, placement, and minimized/maximized status.
+ * @param onCloseRequest A callback function triggered when the user attempts to close the window.
+ * @param accentColor The current color used to accent various visual elements of the frame.
+ * @param onAccentColorChange A callback function triggered when the accent color is changed. The new color is passed as a parameter to the callback.
+ * @param backgroundColor The color of the window frame background. By default, it uses the value defined in `AppColors.FRAME`.
+ * @param content A composable lambda that provides the content to be displayed within the main body of the frame.
  */
 @Composable
 fun WindowScope.AppFrame(
@@ -80,7 +87,7 @@ fun WindowScope.AppFrame(
 
                         Text(
                             text = "Script Runner",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.labelLarge,
                             color = AppColors.TEXT_PRIMARY
                         )
                     }

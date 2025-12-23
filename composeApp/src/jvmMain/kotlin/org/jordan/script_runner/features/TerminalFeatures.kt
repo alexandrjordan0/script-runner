@@ -27,6 +27,7 @@ private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedStr
 
     val errorTagRegex = Regex("<ERR>(.*?)</ERR>")
     errorTagRegex.findAll(code).forEach { match ->
+        // Change the color of the error to red
         addStyle(
             style = SpanStyle(
                 color = AppColors.RED,
@@ -36,6 +37,7 @@ private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedStr
             end = match.groups[1]!!.range.last + 1
         )
 
+        // Hide the <ERR> tag
         addStyle(
             style = SpanStyle(
                 color = Color.Transparent,
@@ -46,6 +48,7 @@ private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedStr
             end = match.range.first + 5
         )
 
+        // Hide the </ERR> tag
         addStyle(
             style = SpanStyle(
                 color = Color.Transparent,

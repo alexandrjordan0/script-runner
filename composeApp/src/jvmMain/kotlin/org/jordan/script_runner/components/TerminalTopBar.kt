@@ -53,7 +53,7 @@ fun TerminalTopBar(
         ) {
             FilledIconButton(
                 onClick = onToggle,
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(30.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
                     containerColor = if (isRunning) AppColors.RED else AppColors.IO_BACKGROUND,

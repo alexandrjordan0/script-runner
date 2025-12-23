@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -25,7 +27,7 @@ import org.jordan.script_runner.logic.ScriptExecutor
 @Composable
 @Preview
 fun App() {
-    var scriptValue by remember { mutableStateOf("") }
+    var scriptValue by remember { mutableStateOf(TextFieldValue("")) }
     var outputValue by remember { mutableStateOf("") }
     var isRunning by remember { mutableStateOf(false) }
     var splitRatio by remember { mutableStateOf(0.6f) }
@@ -60,7 +62,7 @@ fun App() {
 
             scriptJob = scope.launch {
                 val code = ScriptExecutor.runScript(
-                    scriptContent = scriptValue,
+                    scriptContent = scriptValue.text,
                     onOutput = { outputValue += it },
                     onError = { outputValue += it }
                 )
@@ -75,7 +77,22 @@ fun App() {
     }
 
     fun navigateToCode(line: Int, column: Int) {
-        // TODO
+        val text = scriptValue.text
+        val lines = text.split("\n")
+
+        if (line < 1 || line > lines.size) return
+
+        var offset = 0
+        for (i in 0 until line - 1) {
+            offset += lines[i].length + 1
+        }
+
+        val currentLineLength = lines[line - 1].length
+        val colIndex = (column - 1).coerceIn(0, currentLineLength)
+
+        offset += colIndex
+
+        scriptValue = scriptValue.copy(selection = TextRange(offset))
         inputFocusRequester.requestFocus()
     }
 
@@ -93,9 +110,11 @@ fun App() {
                     CodeEditor(
                         value = scriptValue,
                         onValueChange = { scriptValue = it },
-                        modifier = Modifier.fillMaxWidth().weight(splitRatio)
+                        modifier = Modifier.fillMaxWidth().weight(splitRatio),
+                        focusRequester = inputFocusRequester
                     )
 
+                    // Implements draggable divider for dynamic resizing
                     Box(
                         modifier = Modifier
                             .height(4.dp)
@@ -128,6 +147,9 @@ fun App() {
                         isSoftWrap = isSoftWrap,
                         onToggleSoftWrap = { isSoftWrap = !isSoftWrap },
                         onClear = { outputValue = "" },
+                        onNavigate = { line, col ->
+                            navigateToCode(line, col)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f - splitRatio)

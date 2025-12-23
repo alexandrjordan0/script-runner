@@ -2,6 +2,9 @@ package org.jordan.script_runner.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.TextFieldValue
 
 /**
  * A composable function that provides a code editor interface with editable text content.
@@ -13,18 +16,17 @@ import androidx.compose.ui.Modifier
  */
 @Composable
 fun CodeEditor(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    focusRequester: FocusRequester? = null
 ) {
     IOField(
         value = value,
         onValueChange = onValueChange,
+        modifier = modifier.then(
+            if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier
+        ),
         readOnly = false,
-        output = false,
-        modifier = modifier,
-        topBar = {
-            // empty top bar for the slick line design
-        }
     )
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 
 /**
  * A composable function that displays terminal-like output within a styled interface,
@@ -40,13 +41,14 @@ fun TerminalOutput(
     isSoftWrap: Boolean,
     scrollState: ScrollState? = null,
     onToggleSoftWrap: () -> Unit,
+    onNavigate: (Int, Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
         IOField(
-            value = outputValue,
+            value = TextFieldValue(outputValue),
             readOnly = true,
-            output = true,
+            isOutput = true,
             isSoftWrap = isSoftWrap,
             topBar = {
                 TerminalTopBar(
@@ -60,6 +62,7 @@ fun TerminalOutput(
             },
             modifier = Modifier.fillMaxSize(),
             scrollState = scrollState,
+            onNavigate = onNavigate,
             onValueChange = { }
         )
     }
