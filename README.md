@@ -15,12 +15,21 @@ This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a li
 * **Smart Error Navigation**: Automatically parses execution errors and generates clickable links. Clicking a link instantly moves the editor cursor to the exact line and column of the issue.
 * **Modern UI**: A dark-themed, frameless window design for a unified aesthetic.
 
+## Screenshots
+
 **Live Progress**
+
 <img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/dcdd06ec-b4cc-4041-9ab8-44b40ae2a112" />
+
+
 **Error Navigation**
+
 <img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/25eef21d-4d5e-4756-8e66-59fb2155e903" />
+
+
 **Process Control**
-<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/5a575422-bed3-4b27-af72-5e36ae083595" />
+
+<img width="800" height="558" alt="image" src="https://github.com/user-attachments/assets/4be0424f-8a15-458f-aad9-ee0f379252a8" />
 
 ## Prerequisites
 
