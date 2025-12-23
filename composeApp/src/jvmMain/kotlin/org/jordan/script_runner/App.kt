@@ -5,7 +5,6 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
@@ -101,8 +100,7 @@ fun App() {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(splitRatio)
-                                .focusRequester(inputFocusRequester)
-                                .padding(bottom = 8.dp),
+                                .focusRequester(inputFocusRequester),
                             readOnly = isRunning,
                         )
 
@@ -120,12 +118,7 @@ fun App() {
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
-                            HorizontalDivider(
-                                color = AppColors.BORDER,
-                                thickness = 1.dp,
-                                modifier = Modifier
-                                    .fillMaxWidth().padding(bottom = 4.dp)
-                            )
+                            Spacer(modifier = Modifier.fillMaxSize())
                         }
 
                         TerminalOutput(

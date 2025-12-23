@@ -32,96 +32,97 @@ fun TerminalOutput(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
-        Column {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                TooltipBox(
-                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-                        TooltipAnchorPosition.Above
-                    ),
-                    tooltip = {
-                        PlainTooltip(
-                            containerColor = AppColors.FRAME,
-                            contentColor = AppColors.WHITE
-                        ) {
-                            Text(if (isRunning) "Stop" else "Run")
-                        }
-                    },
-                    state = rememberTooltipState()
+
+        IOField(
+            value = outputValue,
+            readOnly = true,
+            output = true,
+            isSoftWrap = isSoftWrap,
+            topBar = {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    FilledIconButton(
-                        onClick = onToggle,
-                        modifier = Modifier.size(32.dp),
-                        shape = RoundedCornerShape(8.dp),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = if (isRunning) AppColors.RED else AppColors.IO_BACKGROUND,
-                            contentColor = if (isRunning) AppColors.WHITE else AppColors.GREEN,
-                        )
+                    TooltipBox(
+                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                            TooltipAnchorPosition.Above
+                        ),
+                        tooltip = {
+                            PlainTooltip(
+                                containerColor = AppColors.FRAME,
+                                contentColor = AppColors.WHITE
+                            ) {
+                                Text(if (isRunning) "Stop" else "Run")
+                            }
+                        },
+                        state = rememberTooltipState()
                     ) {
-                        Icon(
-                            imageVector = if (isRunning) Icons.Default.Stop else Icons.Default.PlayArrow,
-                            contentDescription = if (isRunning) "Stop" else "Run",
-                            modifier = Modifier.size(16.dp)
+                        FilledIconButton(
+                            onClick = onToggle,
+                            modifier = Modifier.size(32.dp),
+                            shape = RoundedCornerShape(8.dp),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = if (isRunning) AppColors.RED else AppColors.IO_BACKGROUND,
+                                contentColor = if (isRunning) AppColors.WHITE else AppColors.GREEN,
+                            )
+                        ) {
+                            Icon(
+                                imageVector = if (isRunning) Icons.Default.Stop else Icons.Default.PlayArrow,
+                                contentDescription = if (isRunning) "Stop" else "Run",
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
+
+
+                    if (isRunning) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(14.dp),
+                            color = AppColors.TEXT_PRIMARY,
+                            strokeWidth = 2.dp
+                        )
+                        Text(
+                            text = "Running...",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = AppColors.TEXT_PRIMARY
+                        )
+                    } else {
+                        Text(
+                            text = "Terminal Output",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = AppColors.TEXT_PRIMARY
                         )
                     }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    ActionIconButton(
+                        onClick = onToggleSoftWrap,
+                        icon = Icons.AutoMirrored.Filled.Sort,
+                        tooltip = "Toggle Soft Wrap",
+                        contentColor = if (isSoftWrap) AppColors.GREEN else AppColors.TEXT_SECONDARY
+                    )
+
+                    ActionIconButton(
+                        onClick = onScrollToBottom,
+                        icon = Icons.Default.VerticalAlignBottom,
+                        tooltip = "Scroll to Bottom",
+                        contentColor = AppColors.TEXT_SECONDARY
+                    )
+
+                    ActionIconButton(
+                        onClick = onClear,
+                        icon = Icons.Default.Delete,
+                        tooltip = "Clear Output",
+                        contentColor = AppColors.TEXT_SECONDARY
+                    )
                 }
-
-
-                if (isRunning) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(14.dp),
-                        color = AppColors.TEXT_PRIMARY,
-                        strokeWidth = 2.dp
-                    )
-                    Text(
-                        text = "Running...",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = AppColors.TEXT_PRIMARY
-                    )
-                } else {
-                    Text(
-                        text = "Terminal Output",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = AppColors.TEXT_PRIMARY
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                ActionIconButton(
-                    onClick = onToggleSoftWrap,
-                    icon = Icons.AutoMirrored.Filled.Sort,
-                    tooltip = "Toggle Soft Wrap",
-                    contentColor = if (isSoftWrap) AppColors.GREEN else AppColors.TEXT_SECONDARY
-                )
-
-                ActionIconButton(
-                    onClick = onScrollToBottom,
-                    icon = Icons.Default.VerticalAlignBottom,
-                    tooltip = "Scroll to Bottom",
-                    contentColor = AppColors.TEXT_SECONDARY
-                )
-
-                ActionIconButton(
-                    onClick = onClear,
-                    icon = Icons.Default.Delete,
-                    tooltip = "Clear Output",
-                    contentColor = AppColors.TEXT_SECONDARY
-                )
-            }
-            IOField(
-                value = outputValue,
-                readOnly = true,
-                output = true,
-                isSoftWrap = isSoftWrap,
-                modifier = Modifier.fillMaxSize(),
-                scrollState = scrollState,
-                onValueChange = { }
-            )
-        }
+            },
+            modifier = Modifier.fillMaxSize(),
+            scrollState = scrollState,
+            onValueChange = { }
+        )
     }
 }
 
