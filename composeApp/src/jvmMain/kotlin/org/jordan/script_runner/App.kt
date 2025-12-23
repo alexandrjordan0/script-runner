@@ -6,12 +6,10 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
@@ -20,10 +18,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.skiko.Cursor
-import org.jordan.script_runner.components.IOField
+import org.jordan.script_runner.components.CodeEditor
 import org.jordan.script_runner.components.TerminalOutput
 import org.jordan.script_runner.logic.ScriptExecutor
-import org.jordan.script_runner.style.AppColors
 
 @Composable
 @Preview
@@ -83,64 +80,58 @@ fun App() {
     }
 
     MaterialTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = AppColors.BACKGROUND) {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-                val totalHeight = constraints.maxHeight.toFloat()
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            val totalHeight = constraints.maxHeight.toFloat()
 
+            Column(
+                modifier = Modifier.padding(4.dp, 0.dp, 4.dp, 4.dp),
+            ) {
                 Column(
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier
+                        .fillMaxSize(),
                 ) {
-                    Column(
+                    CodeEditor(
+                        value = scriptValue,
+                        onValueChange = { scriptValue = it },
+                        modifier = Modifier.fillMaxWidth().weight(splitRatio)
+                    )
+
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize(),
-                    ) {
-                        IOField(
-                            value = scriptValue,
-                            onValueChange = { if (!isRunning) scriptValue = it },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(splitRatio)
-                                .focusRequester(inputFocusRequester),
-                            readOnly = isRunning,
-                        )
-
-                        Box(
-                            modifier = Modifier
-                                .height(8.dp)
-                                .fillMaxHeight()
-                                .pointerHoverIcon(PointerIcon(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR)))
-                                .draggable(
-                                    orientation = Orientation.Vertical,
-                                    state = rememberDraggableState { delta ->
-                                        val newRatio = splitRatio + (delta / totalHeight)
-                                        splitRatio = newRatio.coerceIn(0.1f, 0.9f)
-                                    }
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Spacer(modifier = Modifier.fillMaxSize())
-                        }
-
-                        TerminalOutput(
-                            outputValue = outputValue,
-                            isRunning = isRunning,
-                            onToggle = {
-                                toggleExecution()
-                            },
-                            onScrollToBottom = {
-                                scope.launch {
-                                    terminalScrollState.animateScrollTo(terminalScrollState.maxValue)
+                            .height(4.dp)
+                            .fillMaxHeight()
+                            .pointerHoverIcon(PointerIcon(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR)))
+                            .draggable(
+                                orientation = Orientation.Vertical,
+                                state = rememberDraggableState { delta ->
+                                    val newRatio = splitRatio + (delta / totalHeight)
+                                    splitRatio = newRatio.coerceIn(0.1f, 0.9f)
                                 }
-                            },
-                            scrollState = terminalScrollState,
-                            isSoftWrap = isSoftWrap,
-                            onToggleSoftWrap = { isSoftWrap = !isSoftWrap },
-                            onClear = { outputValue = "" },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f - splitRatio)
-                        )
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Spacer(modifier = Modifier.fillMaxSize())
                     }
+
+                    TerminalOutput(
+                        outputValue = outputValue,
+                        isRunning = isRunning,
+                        onToggle = {
+                            toggleExecution()
+                        },
+                        onScrollToBottom = {
+                            scope.launch {
+                                terminalScrollState.animateScrollTo(terminalScrollState.maxValue)
+                            }
+                        },
+                        scrollState = terminalScrollState,
+                        isSoftWrap = isSoftWrap,
+                        onToggleSoftWrap = { isSoftWrap = !isSoftWrap },
+                        onClear = { outputValue = "" },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f - splitRatio)
+                    )
                 }
             }
         }

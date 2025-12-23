@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -77,18 +78,20 @@ fun IOField(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(AppColors.IO_BACKGROUND, shape = roundedCornerShape)
-                    .border(
-                        width = 1.dp,
-                        color = AppColors.BORDER,
-                        shape = roundedCornerShape
-                    )
+                /* .border(
+                     width = 1.dp,
+                     color = AppColors.BORDER,
+                     shape = roundedCornerShape
+                 )*/
             ) {
                 Column {
                     if (topBar != null) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 0.dp)
+                                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                                .background(AppColors.BACKGROUND)
+                                .padding(horizontal = 8.dp, vertical = 8.dp)
                         ) {
                             topBar()
                         }

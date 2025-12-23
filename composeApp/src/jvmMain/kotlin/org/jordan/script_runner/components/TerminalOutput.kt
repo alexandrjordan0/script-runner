@@ -1,23 +1,34 @@
 package org.jordan.script_runner.components
 
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Sort
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.filled.VerticalAlignBottom
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
-import org.jordan.script_runner.style.AppColors
 
+/**
+ * A composable function that displays terminal-like output within a styled interface,
+ * allowing for soft wrapping, scrolling, and other configurable options. It includes a
+ * top bar for additional actions such as toggling soft wrap, clearing output, and more.
+ *
+ * @param outputValue The text content that represents the terminal output being displayed.
+ * @param isRunning A Boolean indicating whether the terminal process is currently running.
+ *                  This is typically used to control the state of the UI.
+ * @param onToggle Callback invoked when the user interacts with the toggle button
+ *                 (e.g., to start or stop the terminal process).
+ * @param onClear Callback invoked when the clear action is triggered, typically used
+ *                to clear the terminal output.
+ * @param onScrollToBottom Callback invoked when the user triggers a scroll-to-bottom action,
+ *                         useful in keeping the view scrolled to the latest output.
+ * @param isSoftWrap A Boolean determining whether text content should wrap within the
+ *                   available width or allow horizontal scrolling for long lines.
+ * @param scrollState Optional vertical scroll state to externally manage the scroll position.
+ *                    If null, an internal scroll state is used by default.
+ * @param onToggleSoftWrap Callback invoked when the user toggles the soft wrap setting.
+ * @param modifier [Modifier] to be applied to the root composable, allowing for layout
+ *                 customization and styling.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TerminalOutput(
@@ -32,136 +43,24 @@ fun TerminalOutput(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
-
         IOField(
             value = outputValue,
             readOnly = true,
             output = true,
             isSoftWrap = isSoftWrap,
             topBar = {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    TooltipBox(
-                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-                            TooltipAnchorPosition.Above
-                        ),
-                        tooltip = {
-                            PlainTooltip(
-                                containerColor = AppColors.FRAME,
-                                contentColor = AppColors.WHITE
-                            ) {
-                                Text(if (isRunning) "Stop" else "Run")
-                            }
-                        },
-                        state = rememberTooltipState()
-                    ) {
-                        FilledIconButton(
-                            onClick = onToggle,
-                            modifier = Modifier.size(32.dp),
-                            shape = RoundedCornerShape(8.dp),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = if (isRunning) AppColors.RED else AppColors.IO_BACKGROUND,
-                                contentColor = if (isRunning) AppColors.WHITE else AppColors.GREEN,
-                            )
-                        ) {
-                            Icon(
-                                imageVector = if (isRunning) Icons.Default.Stop else Icons.Default.PlayArrow,
-                                contentDescription = if (isRunning) "Stop" else "Run",
-                                modifier = Modifier.size(16.dp)
-                            )
-                        }
-                    }
-
-
-                    if (isRunning) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(14.dp),
-                            color = AppColors.TEXT_PRIMARY,
-                            strokeWidth = 2.dp
-                        )
-                        Text(
-                            text = "Running...",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = AppColors.TEXT_PRIMARY
-                        )
-                    } else {
-                        Text(
-                            text = "Terminal Output",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = AppColors.TEXT_PRIMARY
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    ActionIconButton(
-                        onClick = onToggleSoftWrap,
-                        icon = Icons.AutoMirrored.Filled.Sort,
-                        tooltip = "Toggle Soft Wrap",
-                        contentColor = if (isSoftWrap) AppColors.GREEN else AppColors.TEXT_SECONDARY
-                    )
-
-                    ActionIconButton(
-                        onClick = onScrollToBottom,
-                        icon = Icons.Default.VerticalAlignBottom,
-                        tooltip = "Scroll to Bottom",
-                        contentColor = AppColors.TEXT_SECONDARY
-                    )
-
-                    ActionIconButton(
-                        onClick = onClear,
-                        icon = Icons.Default.Delete,
-                        tooltip = "Clear Output",
-                        contentColor = AppColors.TEXT_SECONDARY
-                    )
-                }
+                TerminalTopBar(
+                    isRunning = isRunning,
+                    isSoftWrap = isSoftWrap,
+                    onToggle = onToggle,
+                    onToggleSoftWrap = onToggleSoftWrap,
+                    onScrollToBottom = onScrollToBottom,
+                    onClear = onClear
+                )
             },
             modifier = Modifier.fillMaxSize(),
             scrollState = scrollState,
             onValueChange = { }
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun ActionIconButton(
-    onClick: () -> Unit,
-    icon: ImageVector,
-    tooltip: String,
-    contentColor: Color
-) {
-    TooltipBox(
-        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-            TooltipAnchorPosition.Above
-        ),
-        tooltip = {
-            PlainTooltip(
-                containerColor = AppColors.FRAME,
-                contentColor = AppColors.WHITE
-            ) {
-                Text(tooltip)
-            }
-        },
-        state = rememberTooltipState()
-    ) {
-        FilledIconButton(
-            onClick = onClick,
-            modifier = Modifier.size(32.dp),
-            shape = RoundedCornerShape(8.dp),
-            colors = IconButtonDefaults.filledIconButtonColors(
-                containerColor = AppColors.IO_BACKGROUND,
-                contentColor = contentColor
-            )
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = tooltip,
-                modifier = Modifier.size(16.dp)
-            )
-        }
     }
 }

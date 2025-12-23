@@ -24,13 +24,13 @@ import org.jordan.script_runner.style.AppColors
 fun WindowScope.AppFrame(
     windowState: WindowState,
     onCloseRequest: () -> Unit,
-    titleBarColor: Color = AppColors.FRAME,
+    backgroundColor: Color = AppColors.FRAME,
     content: @Composable () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(titleBarColor)
+            .background(backgroundColor)
     ) {
         WindowDraggableArea {
             Row(
