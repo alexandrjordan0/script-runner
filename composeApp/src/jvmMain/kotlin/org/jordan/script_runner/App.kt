@@ -32,10 +32,10 @@ fun App() {
     var isRunning by remember { mutableStateOf(false) }
     var splitRatio by remember { mutableStateOf(0.6f) }
     var isSoftWrap by remember { mutableStateOf(true) }
+    var isOutputStale by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
     var scriptJob by remember { mutableStateOf<Job?>(null) }
-
     var activeProcess by remember { mutableStateOf<Process?>(null) }
 
     val inputFocusRequester = remember { FocusRequester() }
@@ -67,6 +67,7 @@ fun App() {
             return
         }
 
+        isOutputStale = false
         isRunning = true
         outputValue = ""
 
@@ -125,7 +126,15 @@ fun App() {
                 ) {
                     CodeEditor(
                         value = scriptValue,
-                        onValueChange = { scriptValue = it },
+                        onValueChange = { newValue ->
+                            val textChanged = newValue.text != scriptValue.text
+                            scriptValue = newValue
+
+                            if (textChanged && !isRunning && !isOutputStale && outputValue.isNotEmpty()) {
+                                isOutputStale = true
+                                outputValue += "\n[Code modified since last run - links might be inaccurate]\n"
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth().weight(splitRatio),
                         focusRequester = inputFocusRequester
                     )
