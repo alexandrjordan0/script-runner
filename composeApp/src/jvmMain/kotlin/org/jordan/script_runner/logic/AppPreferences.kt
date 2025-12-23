@@ -5,6 +5,9 @@ import androidx.compose.ui.graphics.toArgb
 import org.jordan.script_runner.style.AppColors
 import java.io.File
 
+/**
+ * Class responsible for loading and saving application preferences.
+ */
 object AppPreferences {
     private val folder = File(System.getProperty("user.home"), ".script_runner")
     private val configFile = File(folder, "config.txt")

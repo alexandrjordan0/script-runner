@@ -13,6 +13,21 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import org.jordan.script_runner.style.AppColors
 
+/**
+ * A visual transformation implementation for highlighting terminal output text
+ * with specific styling rules. This class processes the input text and applies
+ * styles to elements like error messages and script file locations to enhance
+ * readability and usability within a terminal-like UI.
+ *
+ * - Error messages, denoted by `<ERR>` tags, are styled with a bold red color
+ *   and the tags themselves are hidden from the display.
+ * - File location references in the format `filename.kts:line:column` are styled
+ *   with an underline and a clickable hyperlink annotation.
+ *
+ * This class can be integrated with UI components for displaying stylized terminal
+ * outputs, making it easier to identify errors and navigate to the related file
+ * and line locations.
+ */
 class TerminalHighlighter : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         return TransformedText(
@@ -22,6 +37,9 @@ class TerminalHighlighter : VisualTransformation {
     }
 }
 
+/**
+ * Highlights terminal output; styles errors and locations
+ */
 private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedString {
     append(code)
 

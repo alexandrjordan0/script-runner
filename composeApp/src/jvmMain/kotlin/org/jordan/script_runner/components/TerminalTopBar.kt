@@ -17,15 +17,14 @@ import androidx.compose.ui.unit.dp
 import org.jordan.script_runner.style.AppColors
 
 /**
- * A composable function that displays a terminal's top bar with controls for running, soft wrapping,
- * scrolling to the bottom, and clearing the output.
+ * A composable function that displays a terminal top bar with controls for managing the terminal state.
  *
  * @param isRunning A boolean indicating whether the terminal is currently running.
- * @param isSoftWrap A boolean indicating whether soft wrapping is enabled in the terminal output.
- * @param onToggle A lambda function invoked when the run/stop button is clicked.
+ * @param isSoftWrap A boolean indicating whether soft wrap mode is enabled for terminal output.
+ * @param onToggle A lambda function invoked when the start/stop button is clicked.
  * @param onToggleSoftWrap A lambda function invoked when the soft wrap toggle button is clicked.
- * @param onScrollToBottom A lambda function invoked when the scroll to bottom button is clicked.
- * @param onClear A lambda function invoked when the clear output button is clicked.
+ * @param onScrollToBottom A lambda function invoked when the scroll-to-bottom button is clicked.
+ * @param onClear A lambda function invoked when the clear button is clicked.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +37,7 @@ fun TerminalTopBar(
     onClear: () -> Unit
 ) {
     TopBar {
+        // Start/stop button
         TooltipBox(
             positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
                 TooltipAnchorPosition.Above
@@ -69,7 +69,7 @@ fun TerminalTopBar(
             }
         }
 
-
+        // Status text
         if (isRunning) {
             CircularProgressIndicator(
                 modifier = Modifier.size(14.dp),
@@ -93,6 +93,7 @@ fun TerminalTopBar(
 
         Spacer(modifier = Modifier.weight(1f))
 
+        // Terminal control buttons
         ActionIconButton(
             onClick = onToggleSoftWrap,
             icon = Icons.AutoMirrored.Filled.Sort,

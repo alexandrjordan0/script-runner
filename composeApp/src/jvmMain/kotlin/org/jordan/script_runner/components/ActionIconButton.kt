@@ -11,6 +11,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import org.jordan.script_runner.style.AppColors
 
+/**
+ * A composable function that renders an action icon button with a tooltip.
+ *
+ * @param onClick A lambda function to be executed when the button is clicked.
+ * @param icon The icon to display within the button.
+ * @param tooltip Text to show in the tooltip when the user hovers over the button.
+ * @param contentColor The color of the icon content within the button.
+ * @param backgroundColor The background color of the button. Defaults to `AppColors.IO_BACKGROUND`.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActionIconButton(

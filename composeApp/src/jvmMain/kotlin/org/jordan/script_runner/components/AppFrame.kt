@@ -25,15 +25,19 @@ import androidx.compose.ui.window.WindowState
 import org.jordan.script_runner.style.AppColors
 
 /**
- * A composable function that represents the main application window frame. It provides the
- * structure and layout for a custom window with draggable areas, an action bar, and user-defined content.
+ * Composable function that creates a window frame for the app, including a draggable header,
+ * controls for minimizing, maximizing, and closing the window, and space for custom content.
  *
- * @param windowState The current state of the window, including its size, placement, and minimized/maximized status.
- * @param onCloseRequest A callback function triggered when the user attempts to close the window.
- * @param accentColor The current color used to accent various visual elements of the frame.
- * @param onAccentColorChange A callback function triggered when the accent color is changed. The new color is passed as a parameter to the callback.
- * @param backgroundColor The color of the window frame background. By default, it uses the value defined in `AppColors.FRAME`.
- * @param content A composable lambda that provides the content to be displayed within the main body of the frame.
+ * @param windowState The state of the app window, used for managing its size, position,
+ * and whether it is minimized or maximized.
+ * @param onCloseRequest A callback triggered when the close button is clicked.
+ * Typically used to clean up resources or terminate the application.
+ * @param accentColor The current accent color used for decorative purposes in the UI.
+ * @param onAccentColorChange A callback triggered when a new accent color is selected from the menu.
+ * This should update the application's UI theme.
+ * @param backgroundColor The background color of the app's main frame. Defaults to the app's
+ * predefined frame color.
+ * @param content A composable lambda where the main content of the app window can be rendered.
  */
 @Composable
 fun WindowScope.AppFrame(
@@ -44,6 +48,7 @@ fun WindowScope.AppFrame(
     backgroundColor: Color = AppColors.FRAME,
     content: @Composable () -> Unit
 ) {
+    // Brush for the frame background accent effect
     val backgroundBrush = Brush.linearGradient(
         colorStops = arrayOf(
             0.0f to accentColor.copy(alpha = 0.2f),

@@ -23,6 +23,20 @@ import org.jordan.script_runner.features.TerminalHighlighter
 import org.jordan.script_runner.style.AppColors
 import org.jordan.script_runner.style.textStyle
 
+/**
+ * A composable function that provides an input/output text field with support for syntax highlighting,
+ * scrolling, line numbers, and an optional top bar for additional UI controls.
+ *
+ * @param value The current [TextFieldValue] of the text field, representing the text and selection state.
+ * @param onValueChange A callback invoked when the value of the text field changes.
+ * @param modifier A [Modifier] to be applied to the text field's container.
+ * @param readOnly A flag indicating whether the text field is read-only.
+ * @param isOutput A flag indicating if the text field is used for displaying output. This affects the visual transformation applied to the text.
+ * @param isSoftWrap A flag indicating whether soft wrapping of text is enabled.
+ * @param scrollState An optional [ScrollState] for configuring vertical scroll behavior. If null, an internal state will be used.
+ * @param topBar An optional composable function to provide a top bar within the container for additional UI elements.
+ * @param onNavigate An optional callback triggered when navigating to a specific part of the text, typically used for hyperlink navigation.
+ */
 @Composable
 fun IOField(
     value: TextFieldValue,
@@ -66,6 +80,7 @@ fun IOField(
                     .background(AppColors.IO_BACKGROUND, shape = roundedCornerShape)
             ) {
                 Column {
+                    // Top bar with a divider under it
                     if (topBar != null) {
                         Box(
                             modifier = Modifier
@@ -85,6 +100,7 @@ fun IOField(
                         )
                     }
 
+                    // Input or output text field
                     Box(modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)) {
                         Row(
                             modifier = Modifier
@@ -139,6 +155,11 @@ fun IOField(
     )
 }
 
+/**
+ * A composable function that displays line numbers up to the specified count.
+ *
+ * @param lineCount The total number of lines for which the line numbers will be displayed.
+ */
 @Composable
 fun CodeLine(lineCount: Int) {
     val lineNumbers = remember(lineCount) {
@@ -155,6 +176,22 @@ fun CodeLine(lineCount: Int) {
     )
 }
 
+/**
+ * Adds a terminal link handler to the `Modifier`, enabling detection of clickable links
+ * within terminal-like text output and navigation to specified locations.
+ *
+ * This modifier processes text annotations to check for "URL" tags, extracts line and
+ * column information (if present), and triggers the provided `onNavigate` callback
+ * when a link is tapped.
+ *
+ * @param isOutput A flag indicating if the text is output. If false, the handler is disabled.
+ * @param text The terminal text to be processed for link detection.
+ * @param layoutResult A mutable state holding the `TextLayoutResult`, which provides
+ *                     positioning and layout details for the text.
+ * @param onNavigate A callback function invoked when a link is clicked. It provides
+ *                   the extracted line and column numbers as parameters. Can be null.
+ * @return An updated `Modifier` instance with the terminal link handling functionality.
+ */
 private fun Modifier.terminalLinkHandler(
     isOutput: Boolean,
     text: String,

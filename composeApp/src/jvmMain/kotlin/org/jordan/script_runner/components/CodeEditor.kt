@@ -7,12 +7,12 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.TextFieldValue
 
 /**
- * A composable function that provides a code editor interface with editable text content.
+ * A composable function that displays a code editor with editable text and optional focus handling.
  *
- * @param value The current text to display in the editor.
- * @param onValueChange A callback invoked when the text content is modified.
- *                      It provides the new text value as a parameter.
- * @param modifier A [Modifier] to adjust the appearance or layout of the editor.
+ * @param value The current [TextFieldValue] representing the text and selection state of the code editor.
+ * @param onValueChange A callback invoked when the text or selection state of the code editor changes.
+ * @param modifier A [Modifier] to be applied to the code editor container.
+ * @param focusRequester An optional [FocusRequester] for programmatically requesting focus for the code editor.
  */
 @Composable
 fun CodeEditor(

@@ -9,26 +9,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 
 /**
- * A composable function that displays terminal-like output within a styled interface,
- * allowing for soft wrapping, scrolling, and other configurable options. It includes a
- * top bar for additional actions such as toggling soft wrap, clearing output, and more.
+ * A composable function that displays terminal output with options for scrolling, soft wrapping,
+ * and various actions like toggling, clearing the output, and navigating links.
  *
- * @param outputValue The text content that represents the terminal output being displayed.
- * @param isRunning A Boolean indicating whether the terminal process is currently running.
- *                  This is typically used to control the state of the UI.
- * @param onToggle Callback invoked when the user interacts with the toggle button
- *                 (e.g., to start or stop the terminal process).
- * @param onClear Callback invoked when the clear action is triggered, typically used
- *                to clear the terminal output.
- * @param onScrollToBottom Callback invoked when the user triggers a scroll-to-bottom action,
- *                         useful in keeping the view scrolled to the latest output.
- * @param isSoftWrap A Boolean determining whether text content should wrap within the
- *                   available width or allow horizontal scrolling for long lines.
- * @param scrollState Optional vertical scroll state to externally manage the scroll position.
- *                    If null, an internal scroll state is used by default.
- * @param onToggleSoftWrap Callback invoked when the user toggles the soft wrap setting.
- * @param modifier [Modifier] to be applied to the root composable, allowing for layout
- *                 customization and styling.
+ * @param outputValue The value of the terminal output to be displayed.
+ * @param isRunning A boolean indicating whether the terminal is currently running.
+ * @param onToggle A callback invoked when toggling between running and stopped states.
+ * @param onClear A callback triggered to clear the terminal output.
+ * @param onScrollToBottom A callback invoked to scroll the terminal output to the bottom.
+ * @param isSoftWrap A boolean indicating whether soft wrapping is enabled for the terminal content.
+ * @param scrollState A custom scroll state to control vertical scrolling (optional).
+ * @param onToggleSoftWrap A callback triggered to toggle the soft wrapping mode.
+ * @param onNavigate A callback invoked to handle navigation events within the terminal output,
+ * taking the x and y positions of the event as parameters.
+ * @param modifier A [Modifier] applied to the terminal output container (optional).
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

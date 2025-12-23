@@ -24,6 +24,44 @@ import org.jordan.script_runner.components.CodeEditor
 import org.jordan.script_runner.components.TerminalOutput
 import org.jordan.script_runner.logic.ScriptExecutor
 
+/**
+ * Composable function representing the main application UI.
+ *
+ * This function creates a code editor with a terminal output section, enabling users
+ * to edit scripts, execute them, and view their output in real-time. The UI supports
+ * toggling the execution state, scrolling the terminal output, and navigating
+ * directly to specific lines and columns in the code editor.
+ *
+ * Key functional components include:
+ * - **CodeEditor**: For script input and editing.
+ * - **TerminalOutput**: For displaying execution results and handling user interactions
+ *   such as clearing output or toggling settings like soft wrapping.
+ * - **Draggable Divider**: Allows dynamic resizing between the code editor and the terminal output.
+ *
+ * The function manages its state using a combination of `remember`, `mutableStateOf`,
+ * and `rememberCoroutineScope` for asynchronous tasks. Execution can be toggled, and
+ * the process runtime and output are controlled using coroutines. Users can directly
+ * focus on and edit the code from specific locations using navigation features, which
+ * adjust the cursor position programmatically.
+ *
+ * States managed by this function:
+ * - `scriptValue`: Holds the current content of the editor as a `TextFieldValue`.
+ * - `outputValue`: Captures and displays the terminal output.
+ * - `isRunning`: Indicates whether a script is currently being executed.
+ * - `splitRatio`: Determines the height distribution between editor and terminal output.
+ * - `isSoftWrap`: Toggles line wrapping in the terminal output.
+ * - `isOutputStale`: Marks if the output is outdated due to code changes.
+ * - `scriptJob`: Tracks the current coroutine job for script execution.
+ * - `activeProcess`: Holds a reference to the active script process for termination if needed.
+ *
+ * This function includes internal helper methods:
+ * - `toggleExecution()`: Starts or stops script execution, managing the script process and output.
+ * - `navigateToCode(line: Int, column: Int)`: Moves the editor cursor to a specific line and column.
+ *
+ * The function also initializes keyboard and focus interactions, ensuring the code editor
+ * takes focus upon launching, and enables smooth scrolling for the terminal output when new
+ * lines are appended.
+ */
 @Composable
 @Preview
 fun App() {
