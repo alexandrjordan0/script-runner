@@ -60,10 +60,10 @@ private fun highlightTerminal(code: String): AnnotatedString = buildAnnotatedStr
         )
     }
 
-    val locationRegex = Regex("""script.*?\.kts:(\d+):(\d+)""")
+    val locationRegex = Regex("""((?:[a-zA-Z]:)?[^:\s]+\.kts):(\d+)(?::(\d+))?""")
     locationRegex.findAll(code).forEach { match ->
-        val line = match.groups[1]?.value ?: "0"
-        val col = match.groups[2]?.value ?: "0"
+        val line = match.groups[2]?.value ?: "1"
+        val col = match.groups[3]?.value ?: "1"
 
         // Style the script location blue
         addStyle(
