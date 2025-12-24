@@ -15,6 +15,11 @@ This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a li
 * **Smart Error Navigation**: Automatically parses execution errors and generates clickable links. Clicking a link instantly moves the editor cursor to the exact line and column of the issue.
 * **Modern UI**: A dark-themed, frameless window design for a unified aesthetic.
 
+## Performance & Scalability
+The terminal engine is optimized for high-throughput logging:
+* **Linear Complexity:** Achieved $O(n)$ scaling for log processing.
+* **Throughput:** Capable of processing over **400,000 lines per second**.
+
 ## Screenshots
 
 **Live Output**
@@ -25,6 +30,9 @@ This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a li
 
 **Process Control**
 <img width="800" alt="Process Control" src="./assets/process_control.png" />
+
+**Performance Insight**
+<img width="800" alt="Performance Insight" src="./assets/performance_insight.png" />
 
 ## Demo Video
 You can find a video demonstration of the tool's features [here](./assets/) or [Watch on YouTube](https://www.youtube.com/watch?v=FmMFijfwSSQ)
