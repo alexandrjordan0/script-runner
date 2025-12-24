@@ -11,6 +11,7 @@ This is a Kotlin Multiplatform project targeting Desktop (JVM). It provides a li
   * Visual status indicators for running processes.
   * One-click termination for hanging or long-running scripts.
   * Clear reporting of process exit codes upon completion.
+  * Recursive Process Cleanup: Recursively terminates all spawned compilers and scripts on exit, preventing background resource leaks.
 * **Syntax Highlighting**: Custom highlighting for Kotlin keywords to improve code readability.
 * **Smart Error Navigation**: Automatically parses execution errors and generates clickable links. Clicking a link instantly moves the editor cursor to the exact line and column of the issue.
 * **Modern UI**: A dark-themed, frameless window design for a unified aesthetic.
