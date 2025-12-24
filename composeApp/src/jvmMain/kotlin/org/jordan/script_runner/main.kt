@@ -16,8 +16,13 @@ fun main() = application {
     val initialColor = remember { AppPreferences.loadAccentColor() }
     var accentColor by remember { mutableStateOf(initialColor) }
 
+    fun safeExit() {
+        ProcessHandle.current().descendants().forEach { it.destroyForcibly() }
+        exitApplication()
+    }
+
     Window(
-        onCloseRequest = ::exitApplication,
+        onCloseRequest = { safeExit() },
         title = "ScriptRunner",
         state = windowState,
         undecorated = true,
@@ -26,7 +31,7 @@ fun main() = application {
     ) {
         AppFrame(
             windowState = windowState,
-            onCloseRequest = ::exitApplication,
+            onCloseRequest = { safeExit() },
             accentColor = accentColor,
             onAccentColorChange = { newColor ->
                 accentColor = newColor
