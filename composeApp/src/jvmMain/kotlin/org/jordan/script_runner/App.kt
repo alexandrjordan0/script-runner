@@ -46,7 +46,7 @@ import org.jordan.script_runner.logic.ScriptExecutor
  *
  * States managed by this function:
  * - `scriptValue`: Holds the current content of the editor as a `TextFieldValue`.
- * - `outputValue`: Captures and displays the terminal output.
+ * - `outputLines : Captures and displays the terminal output.
  * - `isRunning`: Indicates whether a script is currently being executed.
  * - `splitRatio`: Determines the height distribution between editor and terminal output.
  * - `isSoftWrap`: Toggles line wrapping in the terminal output.
@@ -66,7 +66,7 @@ import org.jordan.script_runner.logic.ScriptExecutor
 @Preview
 fun App() {
     var scriptValue by remember { mutableStateOf(TextFieldValue("")) }
-    var outputValue by remember { mutableStateOf("") }
+    val outputLines = remember { mutableStateListOf<String>() }
     var isRunning by remember { mutableStateOf(false) }
     var splitRatio by remember { mutableStateOf(0.6f) }
     var isSoftWrap by remember { mutableStateOf(true) }
@@ -85,8 +85,8 @@ fun App() {
 
     val terminalScrollState = rememberScrollState()
 
-    LaunchedEffect(outputValue) {
-        if (outputValue.isNotEmpty()) {
+    LaunchedEffect(outputLines.size) {
+        if (outputLines.isNotEmpty()) {
             terminalScrollState.animateScrollTo(terminalScrollState.maxValue)
         }
     }
@@ -100,26 +100,29 @@ fun App() {
 
             activeProcess = null
             isRunning = false
-            outputValue += "\n[Terminated by user]"
+            outputLines.add("\n[Terminated by user]")
 
             return
         }
 
         isOutputStale = false
         isRunning = true
-        outputValue = ""
+        outputLines.clear()
 
         scriptJob = scope.launch {
             try {
                 val exitCode = ScriptExecutor.runScript(
                     scriptContent = scriptValue.text,
                     onProcessStarted = { activeProcess = it },
-                    onOutput = { outputValue += it },
-                    onError = { outputValue += it }
+                    onOutput = {
+                        if (outputLines.size > 1000) outputLines.removeAt(0)
+                        outputLines.add(it)
+                    },
+                    onError = { outputLines.add(it) }
                 )
 
                 if (isRunning && exitCode != 0 && exitCode != -1) {
-                    outputValue += "\n[Process finished with exit code $exitCode]"
+                    outputLines.add("\n[Process finished with exit code $exitCode]")
                 }
             } catch (_: Exception) {
                 // Do nothing
@@ -168,9 +171,9 @@ fun App() {
                             val textChanged = newValue.text != scriptValue.text
                             scriptValue = newValue
 
-                            if (textChanged && !isRunning && !isOutputStale && outputValue.isNotEmpty()) {
+                            if (textChanged && !isRunning && !isOutputStale && outputLines.isNotEmpty()) {
                                 isOutputStale = true
-                                outputValue += "\n[Code modified since last run - links might be inaccurate]\n"
+                                outputLines.add("\n[Code modified since last run - links might be inaccurate]\n")
                             }
                         },
                         modifier = Modifier.fillMaxWidth().weight(splitRatio),
@@ -196,7 +199,7 @@ fun App() {
                     }
 
                     TerminalOutput(
-                        outputValue = outputValue,
+                        outputLines = outputLines,
                         isRunning = isRunning,
                         onToggle = {
                             toggleExecution()
@@ -209,7 +212,7 @@ fun App() {
                         scrollState = terminalScrollState,
                         isSoftWrap = isSoftWrap,
                         onToggleSoftWrap = { isSoftWrap = !isSoftWrap },
-                        onClear = { outputValue = "" },
+                        onClear = { outputLines.clear() },
                         onNavigate = { line, col ->
                             navigateToCode(line, col)
                         },

@@ -12,7 +12,7 @@ import androidx.compose.ui.text.input.TextFieldValue
  * A composable function that displays terminal output with options for scrolling, soft wrapping,
  * and various actions like toggling, clearing the output, and navigating links.
  *
- * @param outputValue The value of the terminal output to be displayed.
+ * @param outputLines The value of the terminal output to be displayed.
  * @param isRunning A boolean indicating whether the terminal is currently running.
  * @param onToggle A callback invoked when toggling between running and stopped states.
  * @param onClear A callback triggered to clear the terminal output.
@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TerminalOutput(
-    outputValue: String,
+    outputLines: List<String>,
     isRunning: Boolean,
     onToggle: () -> Unit,
     onClear: () -> Unit,
@@ -40,7 +40,7 @@ fun TerminalOutput(
 ) {
     Box(modifier = modifier) {
         IOField(
-            value = TextFieldValue(outputValue),
+            value = TextFieldValue(outputLines.joinToString("")),
             readOnly = true,
             isOutput = true,
             isSoftWrap = isSoftWrap,
